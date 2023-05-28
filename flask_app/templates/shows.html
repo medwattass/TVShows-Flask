@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TV Shows</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+</head>
+<body>
+    <nav class="d-flex justify-content-between align-items-center col-12">
+        <h1 class="text-center text-primary">Howdy {{user.first_name}}!</h1>
+        <div class="d-flex col-2 justify-content-around">
+            <a href="/shows/new" class="btn btn-success">Create</a>
+            <a href="/logout" class="btn btn-secondary">Logout</a>
+        </div>
+    </nav>
+    <div class="col-8 mx-auto bg-dark text-light">
+        <h2 class="text-center text-primary">All TV Shows</h2>
+        <table class="table text-light">
+            <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Network</th>
+                    <th>Release Date</th>
+                    <th>Actions</th>
+                    <th>Like!</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for tv_show in tv_shows %}
+                    <tr>
+                        <td>{{tv_show.title}}</td>
+                        <td>{{tv_show.network}}</td>
+                        <td>{{tv_show.release_date}}</td>
+                        <td>
+                            <a href="/shows/{{tv_show.id}}/{{tv_show.user_id}}">Show</a>
+                            {% if tv_show.user_id == session.user_id %}
+                            <a href="/shows/edit/{{tv_show.id}}">Edit</a>
+                            <a href="/shows/delete/{{tv_show.id}}" >Delete</a>
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if tv_show_liked[tv_show.id]  %}
+                            <a href="/shows/unlike/{{user.id}}/{{tv_show.id}}">Unlike</a>
+                            {% else %}
+                            <a href="/shows/like/{{user.id}}/{{tv_show.id}}">Like</a>
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>
